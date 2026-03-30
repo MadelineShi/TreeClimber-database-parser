@@ -18,27 +18,32 @@ cursor = conn.cursor()
 cursor.execute("DELETE FROM Meetings")
 cursor.execute("DELETE FROM Courses")
 
-with open("test.json") as f:
+with open("fal26.json") as f:
     data = json.load(f)
 
+seen = set()
 for course in data:
+    if course["crn"] not in seen:
 
-    course_values = (
-        course["crn"],
-        course["course_code"],
-        course["department"],
-        course["course_title"],
-        course["grad_requirements"],
-        course["enrollment"]["current"],
-        course["enrollment"]["max"],
-        course["enrollment"]["remaining"]
-    )
+        enrollment = course.get("enrollment", {})
+        course_values = (
+            course["crn"],
+            course["course_code"],
+            course["department"],
+            course["course_title"],
+            course["grad_requirements"],
+            course["enrollment"]["current"],
+            course["enrollment"]["max"],
+            course["enrollment"]["remaining"]
+        )
 
-    cursor.execute("""
-        INSERT INTO Courses
-        (crn, course_code, department, course_title, grad_requirements, current, max, remaining)
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
-    """, course_values)
+        cursor.execute("""
+            INSERT INTO Courses
+            (crn, course_code, department, course_title, grad_requirements,
+            enroll_current, enroll_max, enroll_remaining)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+        """, course_values)
+        seen.add(course["crn"])
 
     for meeting in course["meetings"]:
         meeting_values = (
