@@ -1,0 +1,24 @@
+[
+    {
+      "crn": 12345,
+      "course_code": "CSC 221",
+      "department": "CSC",
+      "course_title": "Data Structures",
+      "grad_requirements": "None",
+      "enrollment": {
+        "current": 25,
+        "max": 30,
+        "remaining": 5
+      },
+      "meetings": [
+        {
+          "meeting_type": "Lecture",
+          "weekdays": "MWF",
+          "start_time": "10:00",
+          "end_time": "10:50",
+          "class_time": "10:00-10:50",
+          "room": "Chambers 201"
+        }
+      ]
+    }
+  ]
